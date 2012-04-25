@@ -46,7 +46,7 @@
                         <ul class="nav">
                             <li><a href="${pageContext.request.contextPath}/default/home">Home</a></li>
                             <li><a href="${pageContext.request.contextPath}/default/search">Search</a></li>
-                            <li class="active"><a href="${pageContext.request.contextPath}/default/userlist">List all users</a></li>
+                            <li><a href="${pageContext.request.contextPath}/default/userlist">List all users</a></li>
 
                             <li class="divider-vertical"></li>
 
@@ -62,29 +62,7 @@
 
             <div class="row">
                 <div class="span12">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Username</th>
-                                <th>Picture</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="user" items="${users}">
-                                <tr>
-                                    <td><h2><a class="userlist" href="profile/${user.username}">${user.username}</a></h2></td>
-                                    <td class="span2"><c:choose>
-                                            <c:when test="${user.hasProfileImage}">
-                                                <img src="${pageContext.request.contextPath}/image/getprofile/${user.username}" width="50" height="50" />
-                                            </c:when>
-                                            <c:otherwise>
-                                                <a href="#" class="thumbnail span1"><img src="<c:url value="/resources/img/lolcat.jpeg" />" alt="default profile" width="50" height="50" /></a>
-                                            </c:otherwise>
-                                        </c:choose></td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                    <h2>No such user. <a href="${pageContext.request.contextPath}/default/search">Search for users</a></h2>
                 </div>
             </div>
 
@@ -99,19 +77,19 @@
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="../assets/js/jquery.js"></script>
-        <script src="../assets/js/bootstrap-transition.js"></script>
-        <script src="../assets/js/bootstrap-alert.js"></script>
-        <script src="../assets/js/bootstrap-modal.js"></script>
-        <script src="../assets/js/bootstrap-dropdown.js"></script>
-        <script src="../assets/js/bootstrap-scrollspy.js"></script>
-        <script src="../assets/js/bootstrap-tab.js"></script>
-        <script src="../assets/js/bootstrap-tooltip.js"></script>
-        <script src="../assets/js/bootstrap-popover.js"></script>
-        <script src="../assets/js/bootstrap-button.js"></script>
-        <script src="../assets/js/bootstrap-collapse.js"></script>
-        <script src="../assets/js/bootstrap-carousel.js"></script>
-        <script src="../assets/js/bootstrap-typeahead.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-transition.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-alert.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-modal.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-scrollspy.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-popover.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-button.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-carousel.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-typeahead.js"></script>
 
     </body>
 

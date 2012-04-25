@@ -88,4 +88,14 @@ public class ImageServiceImpl implements ImageService{
         return userRepository.findByUsername(userName).getImages();
     }
     
+    @Override
+    @Transactional
+    public void deleteImage(Long imageId) {
+        Image image = imageRepository.findById(imageId);
+        
+        User user = image.getUser();
+        user.getImages().remove(image);
+        userRepository.save(user);
+    }
+    
 }

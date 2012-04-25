@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.eclipse.persistence.annotations.CascadeOnDelete;
 
 @Entity(name = "USERS")
 public class User implements Serializable {
@@ -11,18 +13,20 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
-    private String name;
+    @Size(min=4, message="Email is not valid")
+    private String email;
     @NotNull(message = "Username cannot be empty!")
     @Column(unique = true)
     private String username;
     private String password;
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Role> roles;
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "user", orphanRemoval=true, cascade = {CascadeType.ALL})
+    @CascadeOnDelete
     private List<Image> images;
     private Image profileImage;
     private boolean hasProfileImage = false;
-
+    
     public void addImage(Image image) {
         if (!images.contains(image)) {
             images.add(image);
@@ -64,12 +68,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

@@ -6,13 +6,11 @@ import wad.spring.domain.User;
 
 public interface UserService {
 
-    @PreAuthorize("hasRole('admin')")
-    public void executeOnlyIfAuthenticatedAsLecturer();
+    //@PreAuthorize("hasRole('admin')")
+    
+    //@PreAuthorize("isAuthenticated()")
 
-    @PreAuthorize("isAuthenticated()")
-    public void executeOnlyIfAuthenticated();
-
-    public void executeFreely();
+    public void populateRepository();
     
     public boolean addUser(User user);
     

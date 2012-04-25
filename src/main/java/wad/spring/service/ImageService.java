@@ -24,4 +24,6 @@ public interface ImageService {
     public void setProfileImage(String username, Long imageId);
     
     public List<Image> getImages(String userName);
+    
+    public void deleteImage(Long imageId);
 }

@@ -16,18 +16,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public void executeOnlyIfAuthenticatedAsLecturer() {
-        System.out.println("The guy must be an admin! Note that this was configured in the interface.");
-    }
-
-    @Override
-    public void executeOnlyIfAuthenticated() {
-        System.out.println("The guy must be authenticated! Note that this was configured in the interface.");
-    }
-
-    @Override
     @Transactional
-    public void executeFreely() {
+    public void populateRepository() {
         // populate db if needed
         if (userRepository.count() > 0) {
             return;
@@ -70,6 +60,24 @@ public class UserServiceImpl implements UserService {
         roles.add(role);
 
         joku.setRoles(roles);
+        
+        User joku2 = new User();
+        joku2.setUsername("joku2");
+        joku2.setPassword("bonus");
+        joku2 = userRepository.save(joku2);
+
+        roles = new ArrayList();
+        role = new Role();
+        role.setRolename("default");
+        roles.add(role);
+        role = new Role();
+        role.setRolename("admin");
+        roles.add(role);
+        role = new Role();
+        role.setRolename("joku2");
+        roles.add(role);
+
+        joku2.setRoles(roles);
     }
 
     @Override

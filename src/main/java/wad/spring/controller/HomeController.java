@@ -15,11 +15,11 @@ import wad.spring.service.UserService;
 public class HomeController {
 
     @Autowired
-    UserService secureService;
+    UserService userService;
 
     @RequestMapping(value = "/home")
     public String home(Model model) {
-        secureService.executeFreely();
+        userService.populateRepository();
 
         return "home";
     }
@@ -34,25 +34,19 @@ public class HomeController {
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public String postUser(@Valid @ModelAttribute("user") User user, BindingResult result) {
         if (result.hasErrors()) {
-            return "user";
+            return "register";
         }
 
-        if(secureService.addUser(user)) {
+        if(userService.addUser(user)) {
             return "redirect:/home";
         } else {
             return "redirect:/home";
         }
     }
 
-    @RequestMapping(value = "/must-be-authenticated")
-    public String mustAuth() {
-        secureService.executeOnlyIfAuthenticated();
-        return "home";
-    }
-
-    @RequestMapping(value = "/must-be-admin")
-    public String mustAdmin() {
-        secureService.executeOnlyIfAuthenticatedAsLecturer();
-        return "home";
-    }
+//    @RequestMapping(value = "/must-be-admin")
+//    public String mustAdmin() {
+//        userService.executeOnlyIfAuthenticatedAsLecturer();
+//        return "home";
+//    }
 }

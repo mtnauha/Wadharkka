@@ -100,7 +100,7 @@
                                             <a href="#">Change description</a>
                                         </li>
                                         <li>
-                                            <a class="delete" id="${image.id}" href="#">Delete</a>
+                                            <a href="#">Delete</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -112,40 +112,30 @@
 
             <sec:authorize access="hasRole('${user.username}')">
                 <div class="row">
-                    <div class="span8">
+                    <div class="span9">
                         <h2>Add images</h2>
-                        <form class="form-horizontal" id="form2" enctype="multipart/form-data">
+                        <form class="form-horizontal" id="form1" enctype="multipart/form-data">
                             <fieldset>
                                 <legend>Upload one or more images</legend>
                                 <div class="control-group">
-                                    <label class="control-label" for="description">Description</label>
-                                    <div class="controls">
-                                        <input type="text" id="description" name="description">
-                                    </div>
-                                </div>
-                                <div class="control-group">
                                     <label class="control-label" for="files">Select images</label>
                                     <div class="controls">
-                                        <input type="file" name="files[]" id="files" multiple />
+                                        <input type="file" class="input-xlarge" id="files" name="files" onchange="fileSelected();"/>
+                                        <p class="help-block">Press down CTRL-key while selecting images, and you can select more than one image at once</p>
                                     </div>
                                 </div>
-
                                 <div class="control-group">
-                                    <label class="control-label" for="progress">Progress</label>
+                                    <label class="control-label" for="input01">Image description</label>
                                     <div class="controls">
-                                        <div class="progress">
-                                            <div id="progressbar" class="bar"
-                                                 style="width: 0%;">
-                                            </div>
-                                        </div>
+                                        <input type="text" class="input-xlarge" id="input01" name="description">
                                     </div>
                                 </div>
-
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <input type="button" id="uploadButton" value="Upload" onclick="startRead()"/>
+                                <div class="progress">
+                                    <div id="progressbar" class="bar"
+                                         style="width: 0%;">
                                     </div>
                                 </div>
+                                <button class="btn btn-primary" onclick="startRead()">Add image</button>
                             </fieldset>
                         </form>
                     </div>
@@ -177,27 +167,55 @@
         <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-carousel.js"></script>
         <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-typeahead.js"></script>
         <script>
-            $(".delete").click(function() {
-                var target = $(this).attr("id");
-                
-                $.ajax({
-                    url: '/wadharkka/image/' + target,
-                    type: 'DELETE',
-                    success: function(result) {
-                        //alert("Handler for .click() DELETE called. ID:" + target);
-                    }
-                });
-
-                alert("function ends here. ID:" + target);
-            });
-            
             function startRead() {
-                //FileList object
-                var files = document.getElementById('files').files;
-                if(files){
-                    getAsDataURL(files);
+  
+                //                // FileList object
+                //                var files = document.getElementById('files').files;
+                //                if(files){
+                //                    getAsDataURL(files);
+                //                }
+                
+                var xhr = new XMLHttpRequest();
+                alert("joo1");
+                var fd = new FormData();
+                alert("joo2");
+                fd.append("description", "default");
+                alert("joo3");
+                fd.append("theFile", document.getElementById('files').files[0]);
+                alert("joo4");
+
+                /* event listners */
+                xhr.upload.addEventListener("progress", uploadProgress, false);
+                xhr.addEventListener("load", uploadComplete, false);
+                xhr.addEventListener("error", uploadFailed, false);
+                xhr.addEventListener("abort", uploadCanceled, false);
+                /* Be sure to change the url below to the url of your upload server side script */
+                xhr.open("POST", "/wadharkka/image", true);
+                xhr.send(fd);
+            }
+            
+            function uploadProgress(evt) {
+                if (evt.lengthComputable) {
+                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                    $( "#progressbar" ).css({width: percentComplete + "%"});
+                }
+                else {
+                    document.getElementById('progressNumber').innerHTML = 'unable to compute';
                 }
             }
+
+            function uploadComplete(evt) {
+                /* This event is raised when the server send back a response */
+                alert(evt.target.responseText);
+            }
+
+            function uploadFailed(evt) {
+                alert("There was an error attempting to upload the file.");
+            }
+
+            function uploadCanceled(evt) {
+                alert("The upload has been canceled by the user or the browser dropped the connection.");
+            }  
             
             function getAsDataURL(files) {
                 
@@ -207,9 +225,9 @@
                     var f = files[i];
                     
                     // Only process image files.
-                    if (!f.type.match('image.*')) {
-                        continue;
-                    }
+                    //if (!f.type.match('image.*')) {
+                    //    continue;
+                    //}
                     
                     var reader = new FileReader();
                     
@@ -217,35 +235,68 @@
                     reader.readAsDataURL(f);
                     
                     reader.onprogress = updateProgress;
-                    reader.onload = sendData(f);
+                    reader.onload = loaded(f);
                     
                 }
             }
+
             
-            function updateProgress(evt) {
-                if (evt.lengthComputable) {
-                    // evt.loaded and evt.total are ProgressEvent properties
-                    var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
-                    //alert("loaded:" + evt.loaded + "evt.total:" + evt.total + " % " + percentLoaded);
-                    if (percentLoaded < 100) {
-                        // Increase the prog bar length
-                        $( "#progressbar" ).css({width: percentLoaded + "%"});
-                    }
-                    else {
-                        $( "#progressbar" ).css({width: "100%"});
-                    }
+            function fileSelected() {
+                //                var files = evt.target.files; // FileList object
+                //                
+                //                // Loop through the FileList
+                //                var len = files.length;
+                //                for (var i = 0; i < len; i++) {
+                //                    var f = files[i];
+                //                    
+                //                    // Only process image files.
+                //                    if (!f.type.match(/image.*/)) {
+                //                        continue;
+                //                    }
+                //                    
+                //                    //TODO: Create description fields for each file
+                //                }
+                
+                var file = document.getElementById('files').files[0];
+                if (file) {
+                    var fileSize = 0;
+                    if (file.size > 1024 * 1024)
+                        fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+                    else
+                        fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+          
+                    document.getElementById('fileName').innerHTML = 'Name: ' + file.name;
+                    document.getElementById('fileSize').innerHTML = 'Size: ' + fileSize;
+                    document.getElementById('fileType').innerHTML = 'Type: ' + file.type;
                 }
             }
             
-            function sendData(filez) {
+            //function updateProgress(evt) {
+            //                if (evt.lengthComputable) {
+            //                    // evt.loaded and evt.total are ProgressEvent properties
+            //                    var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
+            //                    if (percentLoaded < 100) {
+            //                        // Increase the prog bar length
+            //                        $( "#progressbar" ).css({width: percentLoaded + "%"});
+            //                    }
+            //                    else {
+            //                        $( "#progressbar" ).css({width: "100%"});
+            //                    }
+            //                }
+            //}
+            
+            function loaded(theFile) {
+                
                 var data = new FormData();
                 data.append("description", "default");
-                data.append("filu", filez);
+                data.append("theFile", theFile);
                 
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/wadharkka/image');
+                xhr.open('POST', '/wadharkka/image', true);
                 xhr.send(data);
             }
+            
+            //document.getElementById('files').addEventListener('change', handleFileSelect, false);
         </script>
 
     </body>

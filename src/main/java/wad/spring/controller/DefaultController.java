@@ -20,7 +20,7 @@ import wad.spring.service.UserService;
 public class DefaultController {
 
     @Autowired
-    private UserService secureService;
+    private UserService userService;
     @Autowired
     private ImageService imageService;
 
@@ -28,22 +28,33 @@ public class DefaultController {
     public String home(Model model, Principal principal) {
 
         model.addAttribute("principalName", principal.getName());
-        model.addAttribute("users", secureService.listUsers());
+        model.addAttribute("users", userService.listUsers());
 
         return "default/home";
     }
 
     @RequestMapping(value = "profile/{username}", method = RequestMethod.GET)
     public String showUser(Model model, @PathVariable String username, Principal principal) {
-        model.addAttribute("user", secureService.getUser(username));
-        model.addAttribute("images", imageService.getImages(username));
-        model.addAttribute("principalName", principal.getName());
-        return "default/profile";
+
+        if (userService.getUser(username) != null) {
+            model.addAttribute("user", userService.getUser(username));
+            model.addAttribute("images", imageService.getImages(username));
+            model.addAttribute("principalName", principal.getName());
+            return "default/profile";
+        } else {
+            model.addAttribute("principalName", principal.getName());
+            return "default/notfound";
+        }
+    }
+
+    @RequestMapping(value = "profile", method = RequestMethod.GET)
+    public String searchUser(@RequestParam(value = "username", required = true) String username) {
+        return "redirect:/default/profile/" + username;
     }
 
     @RequestMapping(value = "profile/{username}/{imageId}", method = RequestMethod.GET)
     public String showImage(Model model, @PathVariable String username, @PathVariable Long imageId, Principal principal) {
-        model.addAttribute("user", secureService.getUser(username));
+        model.addAttribute("user", userService.getUser(username));
         model.addAttribute("image", imageService.getImage(imageId));
         model.addAttribute("principalName", principal.getName());
         return "default/image";
@@ -53,7 +64,7 @@ public class DefaultController {
     public String listUsers(Model model, Principal principal) {
 
         model.addAttribute("principalName", principal.getName());
-        model.addAttribute("users", secureService.listUsers());
+        model.addAttribute("users", userService.listUsers());
 
         return "default/userlist";
     }
@@ -62,7 +73,7 @@ public class DefaultController {
     public String search(Model model, Principal principal) {
 
         model.addAttribute("principalName", principal.getName());
-        model.addAttribute("users", secureService.listUsers());
+        model.addAttribute("users", userService.listUsers());
 
         return "default/search";
     }
@@ -73,47 +84,6 @@ public class DefaultController {
         imageService.setProfileImage(principal.getName(), imageId);
 
         return "redirect:/default/profile/" + principal.getName();
-    }
-
-//    @RequestMapping(value = "profile/form", method = RequestMethod.POST)
-//    public String handleFormUpload(@RequestParam("description") String description,
-//            @RequestParam("files[]") MultipartFile file, Principal principal) {
-//        
-//        System.out.println("****************************DOWEGETHERE*************************");
-//
-//        if (!file.isEmpty()) {
-//            try {
-//                byte[] bytes = file.getBytes();
-//                
-//                if(description.isEmpty())
-//                    imageService.addImage(bytes, principal.getName());
-//                else
-//                    imageService.addImage(bytes, description, principal.getName());
-//            } catch (IOException ex) {
-//                Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            
-//            return "redirect:" + principal.getName();
-//        } else {
-//            return "redirect:" + principal.getName();
-//        }
-//    }
-    @RequestMapping(value = "profile/form", method = RequestMethod.POST)
-    public String handleFormUpload(@RequestParam(value = "filu", required = false) MultipartFile file1, Principal principal) {
-
-        System.out.println("****************************DOWEGETHERE*************************");
-
-        System.out.println("**FILE** " + file1);
-
-        return "redirect:" + principal.getName();
-    }
-
-    @RequestMapping(value = "profile/form", method = RequestMethod.GET)
-    public String handleFormUpload() {
-
-        System.out.println("****************************GETFORM!*************************");
-
-        return "default/profile";
     }
 
     @RequestMapping(value = "profile/{username}/{imageId}/comment", method = RequestMethod.POST)
