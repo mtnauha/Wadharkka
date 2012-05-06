@@ -23,11 +23,11 @@ public class HomeController {
 
         return "home";
     }
-    
+
     @RequestMapping(value = "/register")
     public String register(Model model) {
         model.addAttribute("user", new User());
-        
+
         return "register";
     }
 
@@ -37,13 +37,22 @@ public class HomeController {
             return "register";
         }
 
-        if(userService.addUser(user)) {
-            return "redirect:/home";
+        if (userService.addUser(user)) {
+            return "redirect:/success";
         } else {
-            return "redirect:/home";
+            return "redirect:/error";
         }
     }
 
+    @RequestMapping(value = "/success")
+    public String success(Model model) {
+        return "success";
+    }
+
+    @RequestMapping(value = "/error")
+    public String error(Model model) {
+        return "error";
+    }
 //    @RequestMapping(value = "/must-be-admin")
 //    public String mustAdmin() {
 //        userService.executeOnlyIfAuthenticatedAsLecturer();

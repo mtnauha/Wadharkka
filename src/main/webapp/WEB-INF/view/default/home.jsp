@@ -71,18 +71,18 @@
             <div class="row">
                 <div class="span4">
                     <h2>Search for users</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><a class="btn" href="#">Go to search &raquo;</a></p>
+                    <p>Search up other users in this service.</p>
+                    <p><a class="btn" href="${pageContext.request.contextPath}/default/search">Go to search &raquo;</a></p>
                 </div>
                 <div class="span4">
                     <h2>List all users</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><a class="btn" href="#">Go to listing &raquo;</a></p>
+                    <p>See all registered users in one simple list and view their profiles and pictures.</p>
+                    <p><a class="btn" href="${pageContext.request.contextPath}/default/userlist">Go to listing &raquo;</a></p>
                 </div>
                 <div class="span4">
                     <h2>Check your profile</h2>
-                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                    <p><a class="btn" href="#">Go to profile &raquo;</a></p>
+                    <p>Modify your personal information, add new pictures and set a profile pictures in your profile page.</p>
+                    <p><a class="btn" href="${pageContext.request.contextPath}/default/profile/${principalName}">Go to profile &raquo;</a></p>
                 </div>
             </div>
 

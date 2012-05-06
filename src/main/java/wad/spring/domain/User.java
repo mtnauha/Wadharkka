@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 
@@ -13,20 +14,22 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
-    @Size(min=4, message="Email is not valid")
+    @Pattern(regexp = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", message = "Email address is not valid")
     private String email;
-    @NotNull(message = "Username cannot be empty!")
+    @NotNull(message = "Username cannot be empty")
+    @Size(min = 1, message = "Username cannot be empty")
     @Column(unique = true)
     private String username;
+    @Size(min = 5, message = "Password must be at least 5 characters long")
     private String password;
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Role> roles;
-    @OneToMany(mappedBy = "user", orphanRemoval=true, cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.ALL})
     @CascadeOnDelete
     private List<Image> images;
     private Image profileImage;
     private boolean hasProfileImage = false;
-    
+
     public void addImage(Image image) {
         if (!images.contains(image)) {
             images.add(image);

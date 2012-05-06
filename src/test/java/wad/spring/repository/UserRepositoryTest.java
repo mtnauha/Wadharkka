@@ -50,7 +50,7 @@ public class UserRepositoryTest {
 
         User u = new User();
         u.setUsername("matti");
-        u.setPassword("pass");
+        u.setPassword("passw");
         userRepository.save(u);
 
         long countAtEnd = userRepository.count();
@@ -63,7 +63,7 @@ public class UserRepositoryTest {
 
         User u = new User();
         u.setUsername("seppo");
-        u.setPassword("pass");
+        u.setPassword("passw");
         userRepository.save(u);
 
         Assert.assertTrue("User repository should have user called seppo", userRepository.findByUsername("seppo") != null);

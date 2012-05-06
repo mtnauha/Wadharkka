@@ -80,11 +80,11 @@
                 </div>
                 <div class="span8">
                     <h2>Pictures</h2>
-                    <ul class="thumbnails">
+                    <ul class="thumbnails" id="pictures">
                         <c:forEach var="image" items="${images}">
                             <li class="span2">
                                 <a href="${pageContext.request.contextPath}/default/profile/${user.username}/${image.id}" class="thumbnail" style="text-align:center">
-                                    <img src="${pageContext.request.contextPath}/image/${image.id}" alt="image here">
+                                    <img src="${pageContext.request.contextPath}/image/${image.id}" alt="profile image here">
                                     ${image.description}
                                 </a>
                                 <div class="btn-group">
@@ -118,12 +118,6 @@
                             <fieldset>
                                 <legend>Upload one or more images</legend>
                                 <div class="control-group">
-                                    <label class="control-label" for="description">Description</label>
-                                    <div class="controls">
-                                        <input type="text" id="description" name="description">
-                                    </div>
-                                </div>
-                                <div class="control-group">
                                     <label class="control-label" for="files">Select images</label>
                                     <div class="controls">
                                         <input type="file" name="files[]" id="files" multiple />
@@ -131,15 +125,15 @@
                                 </div>
 
                                 <div class="control-group">
-                                    <label class="control-label" for="progress">Progress</label>
+                                    <label class="control-label" for="files">Progress</label>
                                     <div class="controls">
                                         <div class="progress">
-                                            <div id="progressbar" class="bar"
-                                                 style="width: 0%;">
-                                            </div>
+                                            <div id="progressbar" class="bar" style="width: 0%;"></div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div id="descs"></div>
 
                                 <div class="control-group">
                                     <div class="controls">
@@ -191,13 +185,37 @@
                 alert("function ends here. ID:" + target);
             });
             
-            function startRead() {
+            $('#files').change(function() {
+                var files = document.getElementById('files').files;
+                
+                var len = files.length;
+                for (var i = 0; i < len; i++) {
+                    var f = files[i];
+                    
+                    // Only process image files.
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
+                    
+                    var text = f.name + " Description";
+                    
+                    $('#descs').append('<div class="control-group">\n\
+                                            <label class="control-label" for="description">' + text + '</label>\n\
+                                                <div class="controls">\n\
+                                                    <input type="text" id="description' + i + '" name="description">\n\
+                                                </div>\n\
+                                         </div>');
+                    
+                }
+            });
+            
+            $('#uploadButton').click(function() {
                 //FileList object
                 var files = document.getElementById('files').files;
                 if(files){
                     getAsDataURL(files);
                 }
-            }
+            });
             
             function getAsDataURL(files) {
                 
@@ -216,34 +234,75 @@
                     // Read in the image file as a data URL.
                     reader.readAsDataURL(f);
                     
+                    var descriptionId = "#" + "description" + i;
+                    var description = $(descriptionId).val();
+                    
                     reader.onprogress = updateProgress;
-                    reader.onload = sendData(f);
+                    
+                    reader.onload = sendData(f, description);
+                    
+                    reader.onloadend = refreshPage;
+                    
+                    //refresh page after changes
+                    //location.reload();
                     
                 }
             }
             
             function updateProgress(evt) {
                 if (evt.lengthComputable) {
-                    // evt.loaded and evt.total are ProgressEvent properties
+
                     var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
-                    //alert("loaded:" + evt.loaded + "evt.total:" + evt.total + " % " + percentLoaded);
-                    if (percentLoaded < 100) {
+
+                    if (percentLoaded <= 100) {
                         // Increase the prog bar length
-                        $( "#progressbar" ).css({width: percentLoaded + "%"});
-                    }
-                    else {
-                        $( "#progressbar" ).css({width: "100%"});
+                        $("#progressbar").css({width: percentLoaded + "%"});
                     }
                 }
             }
             
-            function sendData(filez) {
+            function refreshPage(evt) {
+                location.reload();
+            }
+            
+            function sendData(filez, description) {
                 var data = new FormData();
-                data.append("description", "default");
+                data.append("description", description);
                 data.append("filu", filez);
                 
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '/wadharkka/image');
+                /*xhr.responseType = 'blob';
+                
+                xhr.onload = function(e) {
+                    if (this.status == 200) {
+                        var blob = this.response;
+
+                        $('#pictures').append('<li class="span2">\n\
+                                <a href="${pageContext.request.contextPath}/default/profile/${user.username}/${image.id}" class="thumbnail" style="text-align:center">\n\
+                                    <img src="${pageContext.request.contextPath}/image/${image.id}" alt="profile image here">\n\
+                                    ${image.description}\n\
+                                </a>\n\
+                                <div class="btn-group">\n\
+                                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">\n\
+                                        Select action\n\
+                                        <span class="caret"></span>\n\
+                                    </a>\n\
+                                    <ul class="dropdown-menu">\n\
+                                        <li>\n\
+                                            <a href="setprofile/${image.id}">Set as profile</a>\n\
+                                        </li>\n\
+                                        <li>\n\
+                                            <a href="#">Change description</a>\n\
+                                        </li>\n\
+                                        <li>\n\
+                                            <a class="delete" id="${image.id}" href="#">Delete</a>\n\
+                                        </li>\n\
+                                    </ul>\n\
+                                </div>\n\
+                            </li>');
+                };*/
+                
                 xhr.send(data);
             }
         </script>

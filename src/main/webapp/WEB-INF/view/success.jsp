@@ -1,5 +1,11 @@
+<%-- 
+    Document   : error
+    Created on : Apr 25, 2012, 8:07:14 PM
+    Author     : mtnauha
+--%>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -44,14 +50,10 @@
                     <a class="brand" href="#">Wadharkka</a>
                     <div class="nav-collapse">
                         <ul class="nav">
-                            <li><a href="${pageContext.request.contextPath}/default/home">Home</a></li>
-                            <li><a href="${pageContext.request.contextPath}/default/search">Search</a></li>
-                            <li class="active"><a href="${pageContext.request.contextPath}/default/userlist">List all users</a></li>
-
+                            <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
+                            <li><a href="register">Register</a></li>
                             <li class="divider-vertical"></li>
-
-                            <li><a href="${pageContext.request.contextPath}/default/profile/${principalName}">${principalName}</a></li>
-                            <li><a href="<c:url value="/j_spring_security_logout" />">Logout</a></li>
+                            <li><a href="default/home">Login</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
@@ -62,29 +64,7 @@
 
             <div class="row">
                 <div class="span12">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Username</th>
-                                <th>Picture</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="user" items="${users}">
-                                <tr>
-                                    <td><h2><a class="userlist" href="profile/${user.username}">${user.username}</a></h2></td>
-                                    <td class="span2"><c:choose>
-                                            <c:when test="${user.hasProfileImage}">
-                                                <a href="profile/${user.username}" class="thumbnail span1"><img src="${pageContext.request.contextPath}/image/getprofile/${user.username}" height="50" /></a>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <a href="profile/${user.username}" class="thumbnail span1"><img src="<c:url value="/resources/img/lolcat.jpeg" />" alt="profile" height="50" /></a>
-                                            </c:otherwise>
-                                        </c:choose></td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                    <h2>New user successfully created! <a href="default/home">Proceed to Login</a></h2>
                 </div>
             </div>
 
@@ -116,3 +96,4 @@
     </body>
 
 </html>
+

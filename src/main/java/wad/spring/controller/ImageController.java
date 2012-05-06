@@ -31,12 +31,15 @@ public class ImageController {
     }
 
     @RequestMapping(value = "image", method = RequestMethod.POST)
+    //@ResponseBody
     public void addImage(@RequestParam(value = "description", required = false) String description,
             @RequestParam(value = "filu", required = true) MultipartFile file, Principal principal) {
 
         System.out.println("****************************DOWEGETHERE*************************");
         System.out.println("**FILE** " + file);
         System.out.println("**DESC**" + description);
+
+        //byte[] tmp = null;
 
         if (!file.isEmpty()) {
             try {
@@ -47,10 +50,14 @@ public class ImageController {
                 } else {
                     imageService.addImage(bytes, description, principal.getName());
                 }
+
+                //          tmp = bytes;
             } catch (IOException ex) {
                 Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
+        //return tmp;
     }
 
     @RequestMapping(value = "/image/{imageId}", method = RequestMethod.DELETE)
@@ -63,9 +70,16 @@ public class ImageController {
     @RequestMapping(value = "/image/getprofile/{username}", method = RequestMethod.GET)
     @ResponseBody
     public byte[] getProfileImage(@PathVariable String username) throws IOException {
-        
+
         byte[] tmp = null;
-        tmp = imageService.getProfileImage(username).getImagefile();
+        
+        try {
+            tmp = imageService.getProfileImage(username).getImagefile();
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+
         return tmp;
 
         /*

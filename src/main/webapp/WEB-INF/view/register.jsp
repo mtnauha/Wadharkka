@@ -70,13 +70,13 @@
                             <div class="control-group">
                                 <label class="control-label" for="username">Username</label>
                                 <div class="controls">
-                                    <form:input type="text" class="input-xlarge" id="username" path="username" /> <form:errors path="username" />
+                                    <form:input type="text" class="input-xlarge" id="username" path="username" /> <form:errors path="username" style="color:#EE2222" />
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label" for="password">Password</label>
                                 <div class="controls">
-                                    <form:input type="text" class="input-xlarge" id="password" path="password" /> <form:errors path="password" />
+                                    <form:input type="text" class="input-xlarge" id="password" path="password" /> <form:errors path="password" style="color:#EE2222" />
                                 </div>
                             </div>
                             <div class="form-actions">

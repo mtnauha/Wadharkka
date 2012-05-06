@@ -87,9 +87,9 @@ public class DefaultController {
     }
 
     @RequestMapping(value = "profile/{username}/{imageId}/comment", method = RequestMethod.POST)
-    public String sendComment(@RequestParam("comment") String comment, @PathVariable String username, @PathVariable Long imageId) {
+    public String sendComment(@RequestParam("comment") String comment, @PathVariable String username, @PathVariable Long imageId, Principal principal) {
 
-        imageService.addComment(imageId, comment);
+        imageService.addComment(imageId, principal.getName() + ": " + comment);
 
         return "redirect:/default/profile/" + username + "/" + imageId;
     }
