@@ -1,1 +1,2 @@
-web: java -Dspring.profiles.active=production
+web: java -Dspring.profiles.active=production -cp target/classes:"target/dependency/*" target/*.war
+
