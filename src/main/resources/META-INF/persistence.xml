@@ -16,7 +16,7 @@
     <persistence-unit name="persistenceUnitProduction" transaction-type="RESOURCE_LOCAL">
         <properties>
             <property name="showSql" value="true"/>
-            <property name="eclipselink.ddl-generation" value="create-tables"/>
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
             <property name="eclipselink.ddl-generation.output-mode" value="database"/>
             <property name="eclipselink.weaving" value="false"/>
             <property name="eclipselink.logging.level" value="FINE"/>
