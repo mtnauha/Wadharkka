@@ -82,35 +82,5 @@ public class ImageController {
 
         return tmp;
 
-        /*
-         * byte[] tmp = null;
-         *
-         * try { tmp = imageService.getProfileImage(username).getImagefile();
-         * System.out.println("***********IMAGESERVICE???*********"); return
-         * tmp; } catch (Exception e) { System.out.println("***********IMAGE???"
-         * + e + "*********"); FileSystemResource resource = new
-         * FileSystemResource("/WEB-INF/resources/img/lolcat.jpeg"); // Resource
-         * resource =
-         * appContext.getResource("classpath:wad/spring/common/lolcat.jpeg");
-         * System.out.println("***********" + tmp + "*********"); tmp =
-         * IOUtils.toByteArray(resource.getInputStream());
-         * System.out.println("***********" + tmp + "*********"); return tmp; }
-         */
-//        byte[] tmp = null;
-//
-//        if (tmp != null) {
-//            return tmp;
-//        } else {
-//            System.out.println("***********IMAGE???*********");
-//            FileSystemResource resource = new FileSystemResource("/WEB-INF/resources/img/lolcat.jpeg"); // Resource
-//            resource =
-//                    appContext.getResource("classpath:wad/spring/common/lolcat.jpeg");
-//            System.out.println("***********" + tmp + "*********");
-//            tmp =
-//                    IOUtils.toByteArray(resource.getInputStream());
-//            System.out.println("***********" + tmp + "*********");
-//            return tmp;
-//        }
-
     }
 }
