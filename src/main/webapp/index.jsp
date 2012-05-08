@@ -5,11 +5,11 @@
 
 <html>
     <head>
-        <meta http-equiv="refresh" content="0;url=<c:url value="/home" />">
+        <META HTTP-EQUIV="Refresh" CONTENT="0;URL=${pageContext.request.contextPath}/app/index.html">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>We have moved.</title>
     </head>
     <body>
-        <h1>We have moved. Click <a href="${pageContext.request.contextPath}/home">here.</a>!</h1>
+        <h1>We just moved <a href="${pageContext.request.contextPath}/app/index.html">here</a>.</h1>
     </body>
 </html>
