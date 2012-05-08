@@ -62,4 +62,11 @@
         </bean>
     </beans>
     
+    <beans profile="dev,default">
+        <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="properties" value="persistenceUnitName=persistenceUnitDev"/>
+        </bean>
+        <jdbc:embedded-database id="dataSource" type="HSQL"/> 
+    </beans>
+    
 </beans>
