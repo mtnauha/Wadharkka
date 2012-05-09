@@ -241,7 +241,7 @@
                     
                     reader.onload = sendData(f, description);
                     
-                    reader.onloadend = refreshPage;
+                    //reader.onloadend = refreshPage;
                     
                     //refresh page after changes
                     //location.reload();
@@ -272,36 +272,6 @@
                 
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '/wadharkka/image');
-                /*xhr.responseType = 'blob';
-                
-                xhr.onload = function(e) {
-                    if (this.status == 200) {
-                        var blob = this.response;
-
-                        $('#pictures').append('<li class="span2">\n\
-                                <a href="${pageContext.request.contextPath}/default/profile/${user.username}/${image.id}" class="thumbnail" style="text-align:center">\n\
-                                    <img src="${pageContext.request.contextPath}/image/${image.id}" alt="profile image here">\n\
-                                    ${image.description}\n\
-                                </a>\n\
-                                <div class="btn-group">\n\
-                                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">\n\
-                                        Select action\n\
-                                        <span class="caret"></span>\n\
-                                    </a>\n\
-                                    <ul class="dropdown-menu">\n\
-                                        <li>\n\
-                                            <a href="setprofile/${image.id}">Set as profile</a>\n\
-                                        </li>\n\
-                                        <li>\n\
-                                            <a href="#">Change description</a>\n\
-                                        </li>\n\
-                                        <li>\n\
-                                            <a class="delete" id="${image.id}" href="#">Delete</a>\n\
-                                        </li>\n\
-                                    </ul>\n\
-                                </div>\n\
-                            </li>');
-                };*/
                 
                 xhr.send(data);
             }
