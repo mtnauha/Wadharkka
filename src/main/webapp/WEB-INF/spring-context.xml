@@ -36,7 +36,7 @@
     <mvc:annotation-driven /> 
     
     <!-- Resurssit -->
-    <mvc:resources mapping="/app/**" location="/app/" />
+    <mvc:resources mapping="/resources/**" location="/resources/" />
 
 
     <!-- Mahdollistetaan konfigurointi annotaatioilla -->
