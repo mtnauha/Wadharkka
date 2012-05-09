@@ -94,7 +94,7 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="${pageContext.request.contextPath}/setprofile/${image.id}">Set as profile</a>
+                                            <a href="${pageContext.request.contextPath}/default/profile/setprofile/${image.id}">Set as profile</a>
                                         </li>
                                         <li>
                                             <a href="#">Change description</a>
