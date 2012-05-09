@@ -78,14 +78,6 @@ public class DefaultController {
         return "default/search";
     }
 
-    @RequestMapping(value = "profile/setprofile/{imageId}")
-    public String setProfileImage(@PathVariable Long imageId, Principal principal) {
-
-        imageService.setProfileImage(principal.getName(), imageId);
-
-        return "redirect:/default/profile/" + principal.getName();
-    }
-
     @RequestMapping(value = "profile/{username}/{imageId}/comment", method = RequestMethod.POST)
     public String sendComment(@RequestParam("comment") String comment, @PathVariable String username, @PathVariable Long imageId, Principal principal) {
 

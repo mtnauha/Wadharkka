@@ -67,16 +67,23 @@ public class ImageController {
         imageService.deleteImage(imageId);
     }
 
+    @RequestMapping(value = "/image/setprofile/{imageId}", method = RequestMethod.POST)
+    public String setProfileImage(@PathVariable Long imageId, Principal principal) {
+
+        imageService.setProfileImage(principal.getName(), imageId);
+
+        return "redirect:/default/profile/" + principal.getName();
+    }
+
     @RequestMapping(value = "/image/getprofile/{username}", method = RequestMethod.GET)
     @ResponseBody
     public byte[] getProfileImage(@PathVariable String username) throws IOException {
 
         byte[] tmp = null;
-        
+
         try {
             tmp = imageService.getProfileImage(username).getImagefile();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 

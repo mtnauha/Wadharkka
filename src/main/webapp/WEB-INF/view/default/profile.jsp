@@ -94,7 +94,7 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="${pageContext.request.contextPath}/default/profile/setprofile/${image.id}">Set as profile</a>
+                                            <a class="setprofile" id="${image.id}" href="#">Set as profile</a>
                                         </li>
                                         <li>
                                             <a href="#">Change description</a>
@@ -181,8 +181,19 @@
                         //alert("Handler for .click() DELETE called. ID:" + target);
                     }
                 });
-
-                alert("function ends here. ID:" + target);
+            });
+            
+            $(".setprofile").click(function() {
+                var target = $(this).attr("id");
+                
+                $.ajax({
+                    url: '${pageContext.request.contextPath}/image/setprofile/' + target,
+                    type: 'POST',
+                    success: function(result) {
+                        //alert("Result:" + result);
+                        location.reload();
+                    }
+                });
             });
             
             $('#files').change(function() {
