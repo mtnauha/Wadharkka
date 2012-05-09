@@ -84,7 +84,7 @@
                         <c:forEach var="image" items="${images}">
                             <li class="span2">
                                 <a href="${pageContext.request.contextPath}/default/profile/${user.username}/${image.id}" class="thumbnail" style="text-align:center">
-                                    <img src="${pageContext.request.contextPath}/image/${image.id}" alt="profile image here">
+                                    <img src="${pageContext.request.contextPath}/image/${image.id}">
                                     ${image.description}
                                 </a>
                                 <div class="btn-group">
@@ -94,7 +94,7 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="setprofile/${image.id}">Set as profile</a>
+                                            <a href="${pageContext.request.contextPath}/setprofile/${image.id}">Set as profile</a>
                                         </li>
                                         <li>
                                             <a href="#">Change description</a>
@@ -175,7 +175,7 @@
                 var target = $(this).attr("id");
                 
                 $.ajax({
-                    url: '/wadharkka/image/' + target,
+                    url: '${pageContext.request.contextPath}/image/' + target,
                     type: 'DELETE',
                     success: function(result) {
                         //alert("Handler for .click() DELETE called. ID:" + target);
