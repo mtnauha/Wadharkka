@@ -271,7 +271,7 @@
                 data.append("filu", filez);
                 
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/wadharkka/image');
+                xhr.open('POST', '${pageContext.request.contextPath}/image');
                 
                 xhr.send(data);
             }
