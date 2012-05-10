@@ -53,7 +53,7 @@ public class ImageController {
 
                 //          tmp = bytes;
             } catch (IOException ex) {
-                Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -61,10 +61,12 @@ public class ImageController {
     }
 
     @RequestMapping(value = "/image/{imageId}", method = RequestMethod.DELETE)
-    public void deleteImage(@PathVariable Long imageId) {
+    public String deleteImage(@PathVariable Long imageId) {
 
-        System.out.println("*****DELETE******");
+        //System.out.println("*****DELETE******");
         imageService.deleteImage(imageId);
+        
+        return "user/profile";
     }
 
     @RequestMapping(value = "/image/setprofile/{imageId}", method = RequestMethod.POST)
@@ -72,7 +74,7 @@ public class ImageController {
 
         imageService.setProfileImage(principal.getName(), imageId);
 
-        return "redirect:/default/profile/" + principal.getName();
+        return "user/profile/";
     }
 
     @RequestMapping(value = "/image/getprofile/{username}", method = RequestMethod.GET)

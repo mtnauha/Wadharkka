@@ -47,7 +47,7 @@
                             <li class="active"><a href="#">Home</a></li>
                             <li><a href="register">Register</a></li>
                             <li class="divider-vertical"></li>
-                            <li><a href="default/home">Login</a></li>
+                            <li><a href="user/home">Login</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
@@ -60,7 +60,7 @@
             <div class="hero-unit">
                 <h1>Welcome to Wadharkka!</h1>
                 <p>Wadharkka is a simple image sharing service. Add your pictures to the cloud and share them with your friends. Service has been designed with simplicity as top priority.</p>
-                <p><a href="default/home" class="btn btn-primary btn-large">Login &raquo;</a></p>
+                <p><a href="user/home" class="btn btn-primary btn-large">Login &raquo;</a></p>
                 <p>If you don't have account yet, create one by clicking register.</p>
                 <p><a href="register" class="btn btn-secondary btn-large">Register &raquo;</a></p>
             </div>

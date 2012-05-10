@@ -17,7 +17,7 @@ public class User implements Serializable {
     @Pattern(regexp = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", message = "Email address is not valid")
     private String email;
     @NotNull(message = "Username cannot be empty")
-    @Size(min = 1, message = "Username cannot be empty")
+    @Pattern(regexp = "^[a-zA-Z0-9_-]{3,15}$", message = "Username is not valid")
     @Column(unique = true)
     private String username;
     @Size(min = 5, message = "Password must be at least 5 characters long")

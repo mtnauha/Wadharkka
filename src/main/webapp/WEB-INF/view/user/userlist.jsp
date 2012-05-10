@@ -44,13 +44,13 @@
                     <a class="brand" href="#">Wadharkka</a>
                     <div class="nav-collapse">
                         <ul class="nav">
-                            <li class="active"><a href="${pageContext.request.contextPath}/default/home">Home</a></li>
-                            <li><a href="${pageContext.request.contextPath}/default/search">Search</a></li>
-                            <li><a href="${pageContext.request.contextPath}/default/userlist">List all users</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/home">Home</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/search">Search</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/user/userlist">List all users</a></li>
 
                             <li class="divider-vertical"></li>
 
-                            <li><a href="${pageContext.request.contextPath}/default/profile/${principalName}">${principalName}</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/profile/${principalName}">${principalName}</a></li>
                             <li><a href="<c:url value="/j_spring_security_logout" />">Logout</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
@@ -60,29 +60,31 @@
 
         <div class="container">
 
-            <!-- Main hero unit for a primary marketing message or call to action -->
-            <div class="hero-unit">
-                <h1>Welcome ${principalName}</h1>
-                <p>Wadharkka is a simple image sharing service. Add your pictures to the cloud and share them with your friends. Service has been designed to be simple, usable and secure.</p>
-                <p>Recently added pictures</p>
-            </div>
-
-            <!-- Example row of columns -->
             <div class="row">
-                <div class="span4">
-                    <h2>Search for users</h2>
-                    <p>Search up other users in this service.</p>
-                    <p><a class="btn" href="${pageContext.request.contextPath}/default/search">Go to search &raquo;</a></p>
-                </div>
-                <div class="span4">
-                    <h2>List all users</h2>
-                    <p>See all registered users in one simple list and view their profiles and pictures.</p>
-                    <p><a class="btn" href="${pageContext.request.contextPath}/default/userlist">Go to listing &raquo;</a></p>
-                </div>
-                <div class="span4">
-                    <h2>Check your profile</h2>
-                    <p>Modify your personal information, add new pictures and set a profile pictures in your profile page.</p>
-                    <p><a class="btn" href="${pageContext.request.contextPath}/default/profile/${principalName}">Go to profile &raquo;</a></p>
+                <div class="span12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Picture</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="user" items="${users}">
+                                <tr>
+                                    <td><h2><a class="userlist" href="profile/${user.username}">${user.username}</a></h2></td>
+                                    <td class="span2"><c:choose>
+                                            <c:when test="${user.hasProfileImage}">
+                                                <a href="profile/${user.username}" class="thumbnail span1"><img src="${pageContext.request.contextPath}/image/getprofile/${user.username}" height="50" /></a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="profile/${user.username}" class="thumbnail span1"><img src="<c:url value="/resources/img/lolcat.jpeg" />" alt="profile" height="50" /></a>
+                                            </c:otherwise>
+                                        </c:choose></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 

@@ -47,7 +47,7 @@
                             <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
                             <li class="active"><a href="#">Register</a></li>
                             <li class="divider-vertical"></li>
-                            <li><a href="default/home">Login</a></li>
+                            <li><a href="user/home">Login</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
@@ -58,7 +58,7 @@
 
             <div class="row">
                 <div class="span8">
-                    <form:form class="form-horizontal" commandName="user" action="${pageContext.request.contextPath}/user" method="POST">
+                    <form:form class="form-horizontal" commandName="user" action="${pageContext.request.contextPath}/createuser" method="POST">
                         <fieldset>
                             <legend>Register</legend>
                             <div class="control-group">
@@ -90,6 +90,12 @@
                     <h2>Create a new account</h2>
                     <p>
                         Fill in required information: Enter your real name and then choose a username and password.
+                    </p>
+                    <p>
+                        Username must be between 3 to 15 characters long. It can consist of characters a-z, A-Z, 0-9, "_" and "-".
+                    </p>
+                    <p>
+                        Password must contain at least 5 characters.
                     </p>
                 </div>
             </div>

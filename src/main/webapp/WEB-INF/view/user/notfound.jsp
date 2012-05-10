@@ -44,13 +44,13 @@
                     <a class="brand" href="#">Wadharkka</a>
                     <div class="nav-collapse">
                         <ul class="nav">
-                            <li><a href="${pageContext.request.contextPath}/default/home">Home</a></li>
-                            <li class="active"><a href="${pageContext.request.contextPath}/default/search">Search</a></li>
-                            <li><a href="${pageContext.request.contextPath}/default/userlist">List all users</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/home">Home</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/search">Search</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/userlist">List all users</a></li>
 
                             <li class="divider-vertical"></li>
 
-                            <li><a href="${pageContext.request.contextPath}/default/profile/${principalName}">${principalName}</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/profile/${principalName}">${principalName}</a></li>
                             <li><a href="<c:url value="/j_spring_security_logout" />">Logout</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
@@ -62,23 +62,7 @@
 
             <div class="row">
                 <div class="span12">
-                    <h2>Search for users</h2>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="span6 offset3">
-                    <form method="GET" action="${pageContext.request.contextPath}/default/profile">
-                        <c:set var="usernames" value='"${users[0].username}"' />
-                        <c:forEach var="user" items="${users}" begin="1">
-                            <c:set var="usernames" value='${usernames}, "${user.username}"' />
-                        </c:forEach>
-                        
-                        <input type="text" class="span5" name="username" style="margin: 0 auto; font-size: 1.2em; height: 30px;" data-provide="typeahead" data-items="4" data-source='[${usernames}]'/>
-                        <button type="submit" class="btn btn-large"><i class="icon-search"></i></button>
-                    </form>
-                    
-                    <c:out value="${usernames}" />
+                    <h2>No such user. <a href="${pageContext.request.contextPath}/user/search">Search for users</a></h2>
                 </div>
             </div>
 

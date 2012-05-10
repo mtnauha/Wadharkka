@@ -53,7 +53,7 @@
                             <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
                             <li><a href="register">Register</a></li>
                             <li class="divider-vertical"></li>
-                            <li><a href="default/home">Login</a></li>
+                            <li><a href="user/home">Login</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
@@ -64,7 +64,7 @@
 
             <div class="row">
                 <div class="span12">
-                    <h2>New user successfully created! <a href="default/home">Proceed to Login</a></h2>
+                    <h2>New user successfully created! <a href="user/home">Proceed to Login</a></h2>
                 </div>
             </div>
 

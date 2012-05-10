@@ -50,13 +50,13 @@
                     <a class="brand" href="#">Wadharkka</a>
                     <div class="nav-collapse">
                         <ul class="nav">
-                            <li><a href="${pageContext.request.contextPath}/default/home">Home</a></li>
-                            <li><a href="${pageContext.request.contextPath}/default/search">Search</a></li>
-                            <li><a href="${pageContext.request.contextPath}/default/userlist">List all users</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/home">Home</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/search">Search</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/userlist">List all users</a></li>
 
                             <li class="divider-vertical"></li>
 
-                            <li class="active"><a href="${pageContext.request.contextPath}/default/profile/${principalName}">${principalName}</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/user/profile/${principalName}">${principalName}</a></li>
                             <li><a href="<c:url value="/j_spring_security_logout" />">Logout</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
@@ -80,11 +80,11 @@
                 </div>
                 <div class="span8">
                     <h2>Pictures</h2>
-                    <ul class="thumbnails">
+                    <ul class="thumbnails" id="pictures">
                         <c:forEach var="image" items="${images}">
                             <li class="span2">
-                                <a href="${pageContext.request.contextPath}/default/profile/${user.username}/${image.id}" class="thumbnail" style="text-align:center">
-                                    <img src="${pageContext.request.contextPath}/image/${image.id}" alt="image here">
+                                <a href="${pageContext.request.contextPath}/user/profile/${user.username}/${image.id}" class="thumbnail" style="text-align:center">
+                                    <img src="${pageContext.request.contextPath}/image/${image.id}">
                                     ${image.description}
                                 </a>
                                 <div class="btn-group">
@@ -94,13 +94,13 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="setprofile/${image.id}">Set as profile</a>
+                                            <a class="setprofile" id="${image.id}" href="#">Set as profile</a>
                                         </li>
                                         <li>
                                             <a href="#">Change description</a>
                                         </li>
                                         <li>
-                                            <a href="#">Delete</a>
+                                            <a class="delete" id="${image.id}" href="#">Delete</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -112,35 +112,41 @@
 
             <sec:authorize access="hasRole('${user.username}')">
                 <div class="row">
-                    <div class="span9">
+                    <div class="span8">
                         <h2>Add images</h2>
-                        <form class="form-horizontal" id="form1" enctype="multipart/form-data">
+                        <form class="form-horizontal" id="form2" enctype="multipart/form-data">
                             <fieldset>
                                 <legend>Upload one or more images</legend>
                                 <div class="control-group">
                                     <label class="control-label" for="files">Select images</label>
                                     <div class="controls">
-                                        <input type="file" class="input-xlarge" id="files" name="files" onchange="fileSelected();"/>
-                                        <p class="help-block">Press down CTRL-key while selecting images, and you can select more than one image at once</p>
+                                        <input type="file" name="files[]" id="files" multiple />
                                     </div>
                                 </div>
+
                                 <div class="control-group">
-                                    <label class="control-label" for="input01">Image description</label>
+                                    <label class="control-label" for="files">Progress</label>
                                     <div class="controls">
-                                        <input type="text" class="input-xlarge" id="input01" name="description">
+                                        <div class="progress">
+                                            <div id="progressbar" class="bar" style="width: 0%;"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="progress">
-                                    <div id="progressbar" class="bar"
-                                         style="width: 0%;">
+
+                                <div id="descs"></div>
+
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <input type="button" id="uploadButton" value="Upload" onclick="startRead()"/>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary" onclick="startRead()">Add image</button>
                             </fieldset>
                         </form>
                     </div>
                 </div>
             </sec:authorize>
+                            
+                            <div id="progressNumber"></div>
 
             <hr>
 
@@ -167,55 +173,63 @@
         <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-carousel.js"></script>
         <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-typeahead.js"></script>
         <script>
-            function startRead() {
-  
-                //                // FileList object
-                //                var files = document.getElementById('files').files;
-                //                if(files){
-                //                    getAsDataURL(files);
-                //                }
+            $(".delete").click(function() {
+                var target = $(this).attr("id");
                 
-                var xhr = new XMLHttpRequest();
-                alert("joo1");
-                var fd = new FormData();
-                alert("joo2");
-                fd.append("description", "default");
-                alert("joo3");
-                fd.append("theFile", document.getElementById('files').files[0]);
-                alert("joo4");
-
-                /* event listners */
-                xhr.upload.addEventListener("progress", uploadProgress, false);
-                xhr.addEventListener("load", uploadComplete, false);
-                xhr.addEventListener("error", uploadFailed, false);
-                xhr.addEventListener("abort", uploadCanceled, false);
-                /* Be sure to change the url below to the url of your upload server side script */
-                xhr.open("POST", "/wadharkka/image", true);
-                xhr.send(fd);
-            }
+                $.ajax({
+                    url: '${pageContext.request.contextPath}/image/' + target,
+                    type: 'DELETE',
+                    success: function(result) {
+                        alert("DELETE SUCCESS");
+                        location.reload();
+                    }
+                });
+            });
             
-            function uploadProgress(evt) {
-                if (evt.lengthComputable) {
-                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-                    $( "#progressbar" ).css({width: percentComplete + "%"});
+            $(".setprofile").click(function() {
+                var target = $(this).attr("id");
+                
+                $.ajax({
+                    url: '${pageContext.request.contextPath}/image/setprofile/' + target,
+                    type: 'POST',
+                    success: function(result) {
+                        alert("SETPROFILE SUCCESS");
+                        location.reload();
+                    }
+                });
+            });
+            
+            $('#files').change(function() {
+                var files = document.getElementById('files').files;
+                
+                var len = files.length;
+                for (var i = 0; i < len; i++) {
+                    var f = files[i];
+                    
+                    // Only process image files.
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
+                    
+                    var text = f.name + " Description";
+                    
+                    $('#descs').append('<div class="control-group">\n\
+                                            <label class="control-label" for="description">' + text + '</label>\n\
+                                                <div class="controls">\n\
+                                                    <input type="text" id="description' + i + '" name="description">\n\
+                                                </div>\n\
+                                         </div>');
+                    
                 }
-                else {
-                    document.getElementById('progressNumber').innerHTML = 'unable to compute';
+            });
+            
+            $('#uploadButton').click(function() {
+                //FileList object
+                var files = document.getElementById('files').files;
+                if(files){
+                    getAsDataURL(files);
                 }
-            }
-
-            function uploadComplete(evt) {
-                /* This event is raised when the server send back a response */
-                alert(evt.target.responseText);
-            }
-
-            function uploadFailed(evt) {
-                alert("There was an error attempting to upload the file.");
-            }
-
-            function uploadCanceled(evt) {
-                alert("The upload has been canceled by the user or the browser dropped the connection.");
-            }  
+            });
             
             function getAsDataURL(files) {
                 
@@ -225,78 +239,86 @@
                     var f = files[i];
                     
                     // Only process image files.
-                    //if (!f.type.match('image.*')) {
-                    //    continue;
-                    //}
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
                     
                     var reader = new FileReader();
                     
                     // Read in the image file as a data URL.
                     reader.readAsDataURL(f);
                     
-                    reader.onprogress = updateProgress;
-                    reader.onload = loaded(f);
+                    var descriptionId = "#" + "description" + i;
+                    var description = $(descriptionId).val();
+                    
+                    //reader.onprogress = updateProgress;
+                    
+                    reader.onload = sendData(f, description);
+                    
+                    //reader.onloadend = refreshPage;
+                    
+                    //refresh page after changes
+                    //location.reload();
                     
                 }
             }
-
             
-            function fileSelected() {
-                //                var files = evt.target.files; // FileList object
-                //                
-                //                // Loop through the FileList
-                //                var len = files.length;
-                //                for (var i = 0; i < len; i++) {
-                //                    var f = files[i];
-                //                    
-                //                    // Only process image files.
-                //                    if (!f.type.match(/image.*/)) {
-                //                        continue;
-                //                    }
-                //                    
-                //                    //TODO: Create description fields for each file
-                //                }
-                
-                var file = document.getElementById('files').files[0];
-                if (file) {
-                    var fileSize = 0;
-                    if (file.size > 1024 * 1024)
-                        fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
-                    else
-                        fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
-          
-                    document.getElementById('fileName').innerHTML = 'Name: ' + file.name;
-                    document.getElementById('fileSize').innerHTML = 'Size: ' + fileSize;
-                    document.getElementById('fileType').innerHTML = 'Type: ' + file.type;
+            function updateProgress(evt) {
+                if (evt.lengthComputable) {
+
+                    var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
+
+                    if (percentLoaded <= 100) {
+                        // Increase the prog bar length
+                        $("#progressbar").css({width: percentLoaded + "%"});
+                    }
                 }
             }
             
-            //function updateProgress(evt) {
-            //                if (evt.lengthComputable) {
-            //                    // evt.loaded and evt.total are ProgressEvent properties
-            //                    var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
-            //                    if (percentLoaded < 100) {
-            //                        // Increase the prog bar length
-            //                        $( "#progressbar" ).css({width: percentLoaded + "%"});
-            //                    }
-            //                    else {
-            //                        $( "#progressbar" ).css({width: "100%"});
-            //                    }
-            //                }
-            //}
+            function refreshPage(evt) {
+                location.reload();
+            }
             
-            function loaded(theFile) {
-                
+            function sendData(filez, description) {
                 var data = new FormData();
-                data.append("description", "default");
-                data.append("theFile", theFile);
+                data.append("description", description);
+                data.append("filu", filez);
                 
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/wadharkka/image', true);
+                xhr.upload.addEventListener("progress", uploadProgress, false);
+                xhr.addEventListener("load", uploadComplete, false);
+                xhr.addEventListener("error", uploadFailed, false);
+                xhr.addEventListener("abort", uploadCanceled, false);
+                
+                xhr.open('POST', '${pageContext.request.contextPath}/image');
+                
                 xhr.send(data);
             }
             
-            //document.getElementById('files').addEventListener('change', handleFileSelect, false);
+            function uploadProgress(evt) {
+                if (evt.lengthComputable) {
+                    var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                    document.getElementById('progressNumber').innerHTML = percentComplete.toString() + '%';
+                }
+                else {
+                    document.getElementById('progressNumber').innerHTML = 'unable to compute';
+                }
+            }
+
+            function uploadComplete(evt) {
+                /* This event is raised when the server send back a response */
+                //alert(evt.target.responseText);
+                document.getElementById('progressNumber').innerHTML = '0%';
+                //location.reload();
+            }
+
+            function uploadFailed(evt) {
+                alert("There was an error attempting to upload the file.");
+            }
+
+            function uploadCanceled(evt) {
+                alert("The upload has been canceled by the user or the browser dropped the connection.");
+            } 
         </script>
 
     </body>

@@ -44,13 +44,13 @@
                     <a class="brand" href="#">Wadharkka</a>
                     <div class="nav-collapse">
                         <ul class="nav">
-                            <li><a href="${pageContext.request.contextPath}/default/home">Home</a></li>
-                            <li><a href="${pageContext.request.contextPath}/default/search">Search</a></li>
-                            <li><a href="${pageContext.request.contextPath}/default/userlist">List all users</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/user/home">Home</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/search">Search</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/userlist">List all users</a></li>
 
                             <li class="divider-vertical"></li>
 
-                            <li><a href="${pageContext.request.contextPath}/default/profile/${principalName}">${principalName}</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/profile/${principalName}">${principalName}</a></li>
                             <li><a href="<c:url value="/j_spring_security_logout" />">Logout</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
@@ -60,9 +60,29 @@
 
         <div class="container">
 
+            <!-- Main hero unit for a primary marketing message or call to action -->
+            <div class="hero-unit">
+                <h1>Welcome ${principalName}</h1>
+                <p>Wadharkka is a simple image sharing service. Add your pictures to the cloud and share them with your friends. Service has been designed to be simple, usable and secure.</p>
+                <p>Recently added pictures</p>
+            </div>
+
+            <!-- Example row of columns -->
             <div class="row">
-                <div class="span12">
-                    <h2>No such user. <a href="${pageContext.request.contextPath}/default/search">Search for users</a></h2>
+                <div class="span4">
+                    <h2>Search for users</h2>
+                    <p>Search up other users in this service.</p>
+                    <p><a class="btn" href="${pageContext.request.contextPath}/user/search">Go to search &raquo;</a></p>
+                </div>
+                <div class="span4">
+                    <h2>List all users</h2>
+                    <p>See all registered users in one simple list and view their profiles and pictures.</p>
+                    <p><a class="btn" href="${pageContext.request.contextPath}/user/userlist">Go to listing &raquo;</a></p>
+                </div>
+                <div class="span4">
+                    <h2>Check your profile</h2>
+                    <p>Modify your personal information, add new pictures and set a profile pictures in your profile page.</p>
+                    <p><a class="btn" href="${pageContext.request.contextPath}/user/profile/${principalName}">Go to profile &raquo;</a></p>
                 </div>
             </div>
 
@@ -77,19 +97,19 @@
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-transition.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-alert.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-modal.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-scrollspy.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-popover.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-button.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-carousel.js"></script>
-        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-typeahead.js"></script>
+        <script src="../assets/js/jquery.js"></script>
+        <script src="../assets/js/bootstrap-transition.js"></script>
+        <script src="../assets/js/bootstrap-alert.js"></script>
+        <script src="../assets/js/bootstrap-modal.js"></script>
+        <script src="../assets/js/bootstrap-dropdown.js"></script>
+        <script src="../assets/js/bootstrap-scrollspy.js"></script>
+        <script src="../assets/js/bootstrap-tab.js"></script>
+        <script src="../assets/js/bootstrap-tooltip.js"></script>
+        <script src="../assets/js/bootstrap-popover.js"></script>
+        <script src="../assets/js/bootstrap-button.js"></script>
+        <script src="../assets/js/bootstrap-collapse.js"></script>
+        <script src="../assets/js/bootstrap-carousel.js"></script>
+        <script src="../assets/js/bootstrap-typeahead.js"></script>
 
     </body>
 

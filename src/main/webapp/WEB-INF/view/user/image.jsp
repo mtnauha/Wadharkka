@@ -50,13 +50,13 @@
                     <a class="brand" href="#">Wadharkka</a>
                     <div class="nav-collapse">
                         <ul class="nav">
-                            <li><a href="${pageContext.request.contextPath}/default/home">Home</a></li>
-                            <li><a href="${pageContext.request.contextPath}/default/search">Search</a></li>
-                            <li><a href="${pageContext.request.contextPath}/default/userlist">List all users</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/home">Home</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/search">Search</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/userlist">List all users</a></li>
 
                             <li class="divider-vertical"></li>
 
-                            <li><a href="${pageContext.request.contextPath}/default/profile/${principalName}">${principalName}</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/profile/${principalName}">${principalName}</a></li>
                             <li><a href="<c:url value="/j_spring_security_logout" />">Logout</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
@@ -68,7 +68,7 @@
 
             <div class="row">
                 <div class="span12">
-                    <a href="${pageContext.request.contextPath}/default/profile/${user.username}" class="thumbnail" style="text-align:center">
+                    <a href="${pageContext.request.contextPath}/user/profile/${user.username}" class="thumbnail" style="text-align:center">
                         <img src="${pageContext.request.contextPath}/image/${image.id}"/>
                         ${image.description}
                     </a>
@@ -113,63 +113,6 @@
         <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
         <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-carousel.js"></script>
         <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-typeahead.js"></script>
-        <script>
-            function startRead() {
-                //FileList object
-                var files = document.getElementById('files').files;
-                if(files){
-                    getAsDataURL(files);
-                }
-            }
-            
-            function getAsDataURL(files) {
-                
-                // Loop through the FileList
-                var len = files.length;
-                for (var i = 0; i < len; i++) {
-                    var f = files[i];
-                    
-                    // Only process image files.
-                    if (!f.type.match('image.*')) {
-                        continue;
-                    }
-                    
-                    var reader = new FileReader();
-                    
-                    // Read in the image file as a data URL.
-                    reader.readAsDataURL(f);
-                    
-                    reader.onprogress = updateProgress;
-                    reader.onload = sendData(f);
-                    
-                }
-            }
-            
-            function updateProgress(evt) {
-                if (evt.lengthComputable) {
-                    // evt.loaded and evt.total are ProgressEvent properties
-                    var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
-                    alert("loaded:" + evt.loaded + "evt.total:" + evt.total + " % " + percentLoaded);
-                    if (percentLoaded < 100) {
-                        // Increase the prog bar length
-                        $( "#progressbar" ).css({width: percentLoaded + "%"});
-                    }
-                    else {
-                        $( "#progressbar" ).css({width: "100%"});
-                    }
-                }
-            }
-            
-            function sendData(filez) {
-                var data = new FormData();
-                data.append("description", "default");
-                data.append("filu", filez);
-                
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/wadharkka/image');
-                xhr.send(data);
-            }
-        </script>
 
     </body>
 </html>

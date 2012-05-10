@@ -44,13 +44,13 @@
                     <a class="brand" href="#">Wadharkka</a>
                     <div class="nav-collapse">
                         <ul class="nav">
-                            <li><a href="${pageContext.request.contextPath}/default/home">Home</a></li>
-                            <li><a href="${pageContext.request.contextPath}/default/search">Search</a></li>
-                            <li class="active"><a href="${pageContext.request.contextPath}/default/userlist">List all users</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/home">Home</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/user/search">Search</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/userlist">List all users</a></li>
 
                             <li class="divider-vertical"></li>
 
-                            <li><a href="${pageContext.request.contextPath}/default/profile/${principalName}">${principalName}</a></li>
+                            <li><a href="${pageContext.request.contextPath}/user/profile/${principalName}">${principalName}</a></li>
                             <li><a href="<c:url value="/j_spring_security_logout" />">Logout</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
@@ -62,29 +62,23 @@
 
             <div class="row">
                 <div class="span12">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Username</th>
-                                <th>Picture</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="user" items="${users}">
-                                <tr>
-                                    <td><h2><a class="userlist" href="profile/${user.username}">${user.username}</a></h2></td>
-                                    <td class="span2"><c:choose>
-                                            <c:when test="${user.hasProfileImage}">
-                                                <a href="profile/${user.username}" class="thumbnail span1"><img src="${pageContext.request.contextPath}/image/getprofile/${user.username}" height="50" /></a>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <a href="profile/${user.username}" class="thumbnail span1"><img src="<c:url value="/resources/img/lolcat.jpeg" />" alt="profile" height="50" /></a>
-                                            </c:otherwise>
-                                        </c:choose></td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                    <h2>Search for users</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="span6 offset3">
+                    <form method="GET" action="${pageContext.request.contextPath}/user/profile">
+                        <c:set var="usernames" value='"${users[0].username}"' />
+                        <c:forEach var="user" items="${users}" begin="1">
+                            <c:set var="usernames" value='${usernames}, "${user.username}"' />
+                        </c:forEach>
+                        
+                        <input type="text" class="span5" name="username" style="margin: 0 auto; font-size: 1.2em; height: 30px;" data-provide="typeahead" data-items="4" data-source='[${usernames}]'/>
+                        <button type="submit" class="btn btn-large"><i class="icon-search"></i></button>
+                    </form>
+                    
+                    <c:out value="${usernames}" />
                 </div>
             </div>
 
@@ -99,19 +93,19 @@
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="../assets/js/jquery.js"></script>
-        <script src="../assets/js/bootstrap-transition.js"></script>
-        <script src="../assets/js/bootstrap-alert.js"></script>
-        <script src="../assets/js/bootstrap-modal.js"></script>
-        <script src="../assets/js/bootstrap-dropdown.js"></script>
-        <script src="../assets/js/bootstrap-scrollspy.js"></script>
-        <script src="../assets/js/bootstrap-tab.js"></script>
-        <script src="../assets/js/bootstrap-tooltip.js"></script>
-        <script src="../assets/js/bootstrap-popover.js"></script>
-        <script src="../assets/js/bootstrap-button.js"></script>
-        <script src="../assets/js/bootstrap-collapse.js"></script>
-        <script src="../assets/js/bootstrap-carousel.js"></script>
-        <script src="../assets/js/bootstrap-typeahead.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-transition.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-alert.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-modal.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-scrollspy.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-popover.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-button.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-collapse.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-carousel.js"></script>
+        <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-typeahead.js"></script>
 
     </body>
 

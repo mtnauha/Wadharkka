@@ -63,7 +63,7 @@ public class UserServiceImplTest {
     public void testListUsers() {
         System.out.println("listUsers");
         List<User> result = userService.listUsers();
-        for(User u : result) {
+        for (User u : result) {
             System.out.println(u.getUsername());
         }
         Assert.assertTrue(result.size() >= 0);
@@ -75,8 +75,12 @@ public class UserServiceImplTest {
     @Test
     public void testGetUser() {
         System.out.println("getUser");
-        // User should have been already added in addUsers test case
-        User user = userService.getUser("useri");
-        Assert.assertEquals("useri", user.getUsername());
+
+        User user = new User();
+        user.setUsername("user0");
+        userService.addUser(user);
+
+        User userZero = userService.getUser("user0");
+        Assert.assertEquals("user0", userZero.getUsername());
     }
 }
