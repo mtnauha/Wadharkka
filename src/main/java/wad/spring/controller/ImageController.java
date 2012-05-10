@@ -74,7 +74,7 @@ public class ImageController {
 
         imageService.setProfileImage(principal.getName(), imageId);
 
-        return "user/profile/";
+        return "user/profile";
     }
 
     @RequestMapping(value = "/image/getprofile/{username}", method = RequestMethod.GET)
