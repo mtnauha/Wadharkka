@@ -73,7 +73,7 @@
                     <ul class="thumbnails">
                         <li class="span4">
                             <a href="#" class="thumbnail">
-                                <img src="${pageContext.request.contextPath}/image/getprofile/${user.username}" alt="profile image">
+                                <img src="${pageContext.request.contextPath}/image/getprofile/${user.username}">
                             </a>
                         </li>
                     </ul>

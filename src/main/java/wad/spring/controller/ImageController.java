@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import wad.spring.service.ImageService;
@@ -65,7 +66,7 @@ public class ImageController {
 
         //System.out.println("*****DELETE******");
         imageService.deleteImage(imageId);
-        
+
         return "user/profile";
     }
 
@@ -92,4 +93,5 @@ public class ImageController {
         return tmp;
 
     }
+
 }
